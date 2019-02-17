@@ -34,16 +34,16 @@ check_running(){
 do_start(){
 	check_running
 	if [[ $? -eq 0 ]]; then
-		echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME (PID ${PID}) 正在运行..." && exit 0
+		echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME (PID ${PID}) IS RUNNING..." && exit 0
 	else
 		ulimit -n 51200
 		nohup "$BIN" --conf="$CONF" -agree >> /tmp/caddy.log 2>&1 &
 		sleep 2s
 		check_running
 		if [[ $? -eq 0 ]]; then
-			echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME 启动成功 !"
+			echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME START SUCCESSFUL!"
 		else
-			echo -e "${Error_font_prefix}[错误]${Font_suffix} $NAME 启动失败 !"
+			echo -e "${Error_font_prefix}[ERROR]${Font_suffix} $NAME START FAILED!"
 		fi
 	fi
 }
@@ -53,21 +53,21 @@ do_stop(){
 		kill -9 ${PID}
 		RETVAL=$?
 		if [[ $RETVAL -eq 0 ]]; then
-			echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME 停止成功 !"
+			echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME STOP SUCCESSFUL!"
 		else
-			echo -e "${Error_font_prefix}[错误]${Font_suffix} $NAME 停止失败 !"
+			echo -e "${Error_font_prefix}[ERROR]${Font_suffix} $NAME STOP FAILED!"
 		fi
 	else
-		echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME 未运行"
+		echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME NOT RUNNING!"
 		RETVAL=1
 	fi
 }
 do_status(){
 	check_running
 	if [[ $? -eq 0 ]]; then
-		echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME (PID ${PID}) 正在运行..."
+		echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME (PID ${PID}) IS RUNNING..."
 	else
-		echo -e "${Info_font_prefix}[信息]${Font_suffix} $NAME 未运行 !"
+		echo -e "${Info_font_prefix}[INFO]${Font_suffix} $NAME NOT RUNNING!"
 		RETVAL=1
 	fi
 }
